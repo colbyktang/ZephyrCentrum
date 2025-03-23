@@ -1,0 +1,11 @@
+spring:
+    profiles:
+        active: dev
+    application:
+        name: zephyrsanctum
+    output:
+        ansi:
+            enabled: always
+logging:
+  pattern:
+    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(%logger{0}){blue} %clr(%m){faint}%n"

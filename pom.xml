@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ctang</groupId>
-	<artifactId>zephyrsanctum</artifactId>
+	<artifactId>zephyrcentrum</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>zephyrsanctum</name>
+	<name>zephyrcentrum</name>
 	<description>Personal Website</description>
 	<url/>
 	<licenses>
@@ -63,7 +63,6 @@
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>6.6.10.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -77,7 +76,6 @@
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
-			<version>3.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>

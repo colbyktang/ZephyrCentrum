@@ -20,7 +20,6 @@ import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.ctang.zephyrcentrum.types.Roles;
-import com.ctang.zephyrcentrum.utils.PasswordUtils;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

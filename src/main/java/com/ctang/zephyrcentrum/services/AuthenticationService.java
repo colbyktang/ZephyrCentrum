@@ -2,9 +2,7 @@ package com.ctang.zephyrcentrum.services;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
 import com.ctang.zephyrcentrum.models.User;
@@ -17,11 +15,18 @@ public class AuthenticationService {
 
     private final UserService userService;
     private final JwtEncoder jwtEncoder;
+    private final JwtDecoder jwtDecoder;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationService(UserService userService, JwtEncoder jwtEncoder, PasswordEncoder passwordEncoder) {
+    public AuthenticationService(
+        UserService userService, 
+        JwtEncoder jwtEncoder,
+        JwtDecoder jwtDecoder,
+        PasswordEncoder passwordEncoder
+    ) {
         this.userService = userService;
         this.jwtEncoder = jwtEncoder;
+        this.jwtDecoder = jwtDecoder;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -37,7 +42,7 @@ public class AuthenticationService {
         // Get user from database
         User user = userService.getUserByUsername(username);
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new BadCredentialsException("Invalid username or password");
         }
 
         // Verify password
@@ -46,6 +51,16 @@ public class AuthenticationService {
         }
 
         // Successfully authenticated - create JWT token
+        return generateToken(user);
+    }
+    
+    /**
+     * Generates a JWT token for a user
+     * 
+     * @param user The user to generate token for
+     * @return JWT token as string
+     */
+    private String generateToken(User user) {
         Instant now = Instant.now();
 
         // Create scope string from authorities
@@ -63,5 +78,36 @@ public class AuthenticationService {
         
         // Generate and return token
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+    
+    /**
+     * Validates a JWT token and returns the associated user
+     * 
+     * @param token The JWT token to validate
+     * @return The User if valid, null otherwise
+     */
+    public User validateToken(String token) {
+        try {
+            // Decode and validate the token
+            Jwt jwt = jwtDecoder.decode(token);
+            
+            // Get username from subject claim
+            String username = jwt.getSubject();
+            if (username == null) {
+                return null;
+            }
+            
+            // Check if token is expired
+            Instant expiresAt = jwt.getExpiresAt();
+            if (expiresAt != null && expiresAt.isBefore(Instant.now())) {
+                return null;
+            }
+            
+            // Get the user
+            return userService.getUserByUsername(username);
+        } catch (JwtException e) {
+            // Invalid token
+            return null;
+        }
     }
 }

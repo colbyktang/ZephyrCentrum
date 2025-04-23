@@ -6,6 +6,10 @@ spring:
     output:
         ansi:
             enabled: always
+    servlet:
+        multipart:
+            max-file-size: 2MB
+            max-request-size: 2MB
 logging:
   pattern:
     console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(%logger{0}){blue} %clr(%m){faint}%n"

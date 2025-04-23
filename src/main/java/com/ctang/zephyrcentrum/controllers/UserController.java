@@ -1,9 +1,8 @@
-package com.ctang.zephyrcentrum.controller;
+package com.ctang.zephyrcentrum.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,6 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/v1/users")
